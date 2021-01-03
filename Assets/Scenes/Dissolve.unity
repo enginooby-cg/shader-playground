@@ -129,6 +129,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 416463813192725835, guid: 3803dd08f6402054f8ba395f855252e7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1206570257883791860, guid: 3803dd08f6402054f8ba395f855252e7,
         type: 3}
       propertyPath: m_RootOrder
@@ -249,6 +254,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8155171846620682174, guid: 3803dd08f6402054f8ba395f855252e7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8593708162629999032, guid: 3803dd08f6402054f8ba395f855252e7,
         type: 3}
       propertyPath: m_ClearFlags
@@ -268,6 +278,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BackGroundColor.r
       value: 0.3490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730505426056107287, guid: 3803dd08f6402054f8ba395f855252e7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8730505426234646450, guid: 3803dd08f6402054f8ba395f855252e7,
         type: 3}
@@ -298,7 +313,7 @@ Material:
     m_TexEnvs: []
     m_Floats: []
     m_Colors: []
---- !u!43 &554869368
+--- !u!43 &925979856
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -494,7 +509,7 @@ Transform:
   m_GameObject: {fileID: 1494194143}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.02}
-  m_LocalScale: {x: 0.04739143, y: 0.02309401, z: 0}
+  m_LocalScale: {x: 0.04798422, y: 0.02309401, z: 0}
   m_Children: []
   m_Father: {fileID: 958012437}
   m_RootOrder: 0
@@ -545,7 +560,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494194143}
-  m_Mesh: {fileID: 554869368}
+  m_Mesh: {fileID: 925979856}
 --- !u!1 &1556006510
 GameObject:
   m_ObjectHideFlags: 0
