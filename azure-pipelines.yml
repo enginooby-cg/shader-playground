@@ -1,0 +1,32 @@
+trigger:
+- main
+
+pool:
+  name: Default
+  demands: 
+    Unity_2019.4.16f1
+  
+steps:
+#cleanup for unity build
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: '$(Build.ArtifactStagingDirectory)'
+    Contents: '**/*'
+
+#get the previously secured library (if any) for performance reasons
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: '$(Build.Repository.LocalPath)\Shader Playground\Library'
+    Contents: '**/*'
+- task: CmdLine@2
+  inputs:
+    script: 'if EXIST "$(Build.BinariesDirectory)\Library\" move "$(Build.BinariesDirectory)\Library" "$(Build.Repository.LocalPath)\Shader Playground\Library"'
+
+#unity PC build
+- task: UnityBuildTask@3
+  inputs:
+    buildTarget: 'WebGL'
+    unityProjectPath: 'Shader Playground'
+    outputPath: '$(Build.BinariesDirectory)\Build'
+    outputFileName: 'shader-playground'
+    
