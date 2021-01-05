@@ -16,17 +16,16 @@ steps:
 #get the previously secured library (if any) for performance reasons
 - task: DeleteFiles@1
   inputs:
-    SourceFolder: '$(Build.Repository.LocalPath)\Shader Playground\Library'
+    SourceFolder: '$(Build.Repository.LocalPath)\Library'
     Contents: '**/*'
 - task: CmdLine@2
   inputs:
-    script: 'if EXIST "$(Build.BinariesDirectory)\Library\" move "$(Build.BinariesDirectory)\Library" "$(Build.Repository.LocalPath)\Shader Playground\Library"'
+    script: 'if EXIST "$(Build.BinariesDirectory)\Library\" move "$(Build.BinariesDirectory)\Library" "$(Build.Repository.LocalPath)\Library"'
 
 #unity PC build
 - task: UnityBuildTask@3
   inputs:
     buildTarget: 'WebGL'
-    unityProjectPath: 'Shader Playground'
     outputPath: '$(Build.BinariesDirectory)\Build'
     outputFileName: 'shader-playground'
     
