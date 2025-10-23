@@ -17,7 +17,7 @@ namespace MText
         [SerializeField] Vector3 forceDirectionMinimum = Vector3.zero;
         [SerializeField] Vector3 forceDirectionMaximum = new Vector3(360,360,360);
 
-        [SerializeField] PhysicMaterial physicMaterial = null;
+        [SerializeField] PhysicsMaterial physicMaterial = null;
 
         public override IEnumerator ModuleRoutine(GameObject obj, float delay)
         {

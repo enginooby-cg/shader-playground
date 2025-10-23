@@ -39,7 +39,7 @@ namespace MText
 
             if (textHolder.gameObject.GetComponent<Rigidbody>())
             {
-                textHolder.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                textHolder.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                 textHolder.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             }
         }

@@ -148,8 +148,8 @@ public class FirstPersonAIO : MonoBehaviour
     public class AdvancedSettings
     {
         public float gravityMultiplier = 1.0f;
-        public PhysicMaterial zeroFrictionMaterial;
-        public PhysicMaterial highFrictionMaterial;
+        public PhysicsMaterial zeroFrictionMaterial;
+        public PhysicsMaterial highFrictionMaterial;
         public float maxSlopeAngle = 55;
         internal bool isTouchingWalkable;
         internal bool isTouchingUpright;
@@ -222,13 +222,13 @@ public class FirstPersonAIO : MonoBehaviour
     {
         public enum matMode { physicMaterial, Material };
         public matMode materialMode;
-        public List<PhysicMaterial> woodPhysMat;
-        public List<PhysicMaterial> metalAndGlassPhysMat;
-        public List<PhysicMaterial> grassPhysMat;
-        public List<PhysicMaterial> dirtAndGravelPhysMat;
-        public List<PhysicMaterial> rockAndConcretePhysMat;
-        public List<PhysicMaterial> mudPhysMat;
-        public List<PhysicMaterial> customPhysMat;
+        public List<PhysicsMaterial> woodPhysMat;
+        public List<PhysicsMaterial> metalAndGlassPhysMat;
+        public List<PhysicsMaterial> grassPhysMat;
+        public List<PhysicsMaterial> dirtAndGravelPhysMat;
+        public List<PhysicsMaterial> rockAndConcretePhysMat;
+        public List<PhysicsMaterial> mudPhysMat;
+        public List<PhysicsMaterial> customPhysMat;
 
         public List<Material> woodMat;
         public List<Material> metalAndGlassMat;
@@ -326,16 +326,16 @@ public class FirstPersonAIO : MonoBehaviour
         #region Movement Settings - Start  
         capsule.radius = capsule.height / 4;
         staminaInternal = staminaLevel;
-        advanced.zeroFrictionMaterial = new PhysicMaterial("Zero_Friction");
+        advanced.zeroFrictionMaterial = new PhysicsMaterial("Zero_Friction");
         advanced.zeroFrictionMaterial.dynamicFriction = 0;
         advanced.zeroFrictionMaterial.staticFriction = 0;
-        advanced.zeroFrictionMaterial.frictionCombine = PhysicMaterialCombine.Minimum;
-        advanced.zeroFrictionMaterial.bounceCombine = PhysicMaterialCombine.Minimum;
-        advanced.highFrictionMaterial = new PhysicMaterial("Max_Friction");
+        advanced.zeroFrictionMaterial.frictionCombine = PhysicsMaterialCombine.Minimum;
+        advanced.zeroFrictionMaterial.bounceCombine = PhysicsMaterialCombine.Minimum;
+        advanced.highFrictionMaterial = new PhysicsMaterial("Max_Friction");
         advanced.highFrictionMaterial.dynamicFriction = 1;
         advanced.highFrictionMaterial.staticFriction = 1;
-        advanced.highFrictionMaterial.frictionCombine = PhysicMaterialCombine.Maximum;
-        advanced.highFrictionMaterial.bounceCombine = PhysicMaterialCombine.Average;
+        advanced.highFrictionMaterial.frictionCombine = PhysicsMaterialCombine.Maximum;
+        advanced.highFrictionMaterial.bounceCombine = PhysicsMaterialCombine.Average;
         #endregion
 
         #region Headbobbing Settings - Start
@@ -429,7 +429,7 @@ public class FirstPersonAIO : MonoBehaviour
 
         if (useStamina)
         {
-            isSprinting = Input.GetKey(sprintKey) && !isCrouching && staminaInternal > 0 && (Mathf.Abs(fps_Rigidbody.velocity.x) > 0.01f || Mathf.Abs(fps_Rigidbody.velocity.z) > 0.01f);
+            isSprinting = Input.GetKey(sprintKey) && !isCrouching && staminaInternal > 0 && (Mathf.Abs(fps_Rigidbody.linearVelocity.x) > 0.01f || Mathf.Abs(fps_Rigidbody.linearVelocity.z) > 0.01f);
             if (isSprinting)
             {
                 staminaInternal -= (staminaDepletionSpeed * 2) * Time.deltaTime;
@@ -439,7 +439,7 @@ public class FirstPersonAIO : MonoBehaviour
                     StaminaMeter.color = Vector4.MoveTowards(StaminaMeter.color, new Vector4(1, 1, 1, 1), 0.15f);
                 }
             }
-            else if ((!Input.GetKey(sprintKey) || Mathf.Abs(fps_Rigidbody.velocity.x) < 0.01f || Mathf.Abs(fps_Rigidbody.velocity.z) < 0.01f || isCrouching) && staminaInternal < staminaLevel)
+            else if ((!Input.GetKey(sprintKey) || Mathf.Abs(fps_Rigidbody.linearVelocity.x) < 0.01f || Mathf.Abs(fps_Rigidbody.linearVelocity.z) < 0.01f || isCrouching) && staminaInternal < staminaLevel)
             {
                 staminaInternal += staminaDepletionSpeed * Time.deltaTime;
             }
@@ -484,7 +484,7 @@ public class FirstPersonAIO : MonoBehaviour
         {
             if (isSprinting && !isCrouching && playerCamera.fieldOfView != (baseCamFOV + (advanced.FOVKickAmount * 2) - 0.01f))
             {
-                if (Mathf.Abs(fps_Rigidbody.velocity.x) > 0.5f || Mathf.Abs(fps_Rigidbody.velocity.z) > 0.5f)
+                if (Mathf.Abs(fps_Rigidbody.linearVelocity.x) > 0.5f || Mathf.Abs(fps_Rigidbody.linearVelocity.z) > 0.5f)
                 {
                     playerCamera.fieldOfView = Mathf.SmoothDamp(playerCamera.fieldOfView, baseCamFOV + (advanced.FOVKickAmount * 2), ref advanced.fovRef, advanced.changeTime);
                 }
@@ -564,7 +564,7 @@ public class FirstPersonAIO : MonoBehaviour
         //apply headbob position
         if (useHeadbob == true)
         {
-            if (fps_Rigidbody.velocity.magnitude > 0.1f)
+            if (fps_Rigidbody.linearVelocity.magnitude > 0.1f)
             {
                 head.localPosition = Vector3.MoveTowards(head.localPosition, snapHeadjointToCapsul ? (new Vector3(originalLocalPosition.x, (capsule.height / 2) * head.localScale.y, originalLocalPosition.z) + new Vector3(xPos, yPos, 0)) : originalLocalPosition + new Vector3(xPos, yPos, 0), 0.5f);
             }
@@ -740,7 +740,7 @@ public class FirstPersonAIO : MonoBehaviour
             {
 
                 fps_Rigidbody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
-                MoveDirection = ((transform.forward * inputXY.y * speed + transform.right * inputXY.x * walkSpeedInternal) * (fps_Rigidbody.velocity.y > 0.01f ? SlopeCheck() : 0.8f));
+                MoveDirection = ((transform.forward * inputXY.y * speed + transform.right * inputXY.x * walkSpeedInternal) * (fps_Rigidbody.linearVelocity.y > 0.01f ? SlopeCheck() : 0.8f));
             }
         }
         else
@@ -757,10 +757,10 @@ public class FirstPersonAIO : MonoBehaviour
 
         if (playerCanMove && !controllerPauseState)
         {
-            fps_Rigidbody.velocity = MoveDirection + (Vector3.up * yVelocity);
+            fps_Rigidbody.linearVelocity = MoveDirection + (Vector3.up * yVelocity);
 
         }
-        else { fps_Rigidbody.velocity = Vector3.zero; }
+        else { fps_Rigidbody.linearVelocity = Vector3.zero; }
 
         if (inputXY.magnitude > 0 || !IsGrounded)
         {
@@ -773,7 +773,7 @@ public class FirstPersonAIO : MonoBehaviour
     public void HandleJump()
     {
         #region Jump
-        yVelocity = fps_Rigidbody.velocity.y;
+        yVelocity = fps_Rigidbody.linearVelocity.y;
 
         if (IsGrounded && jumpInput && jumpPowerInternal > 0 && !didJump)
         {
@@ -783,7 +783,7 @@ public class FirstPersonAIO : MonoBehaviour
                 {
                     didJump = true;
                     jumpInput = false;
-                    yVelocity += fps_Rigidbody.velocity.y < 0.01f ? jumpPowerInternal : jumpPowerInternal / 3;
+                    yVelocity += fps_Rigidbody.linearVelocity.y < 0.01f ? jumpPowerInternal : jumpPowerInternal / 3;
                     advanced.isTouchingWalkable = false;
                     advanced.isTouchingFlat = false;
                     advanced.isTouchingUpright = false;
@@ -1202,7 +1202,7 @@ public class FPAIO_Editor : Editor
                     {
                         SerializedProperty LS_ref = woodPhysMat.GetArrayElementAtIndex(i);
                         EditorGUILayout.BeginHorizontal("box");
-                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicMaterial), false);
+                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicsMaterial), false);
                         if (GUILayout.Button(new GUIContent("X", "Remove this Physic Material"), GUILayout.MaxWidth(20))) { t.dynamicFootstep.woodPhysMat.RemoveAt(i); }
                         EditorGUILayout.EndHorizontal();
                     }
@@ -1265,7 +1265,7 @@ public class FPAIO_Editor : Editor
                     {
                         SerializedProperty LS_ref = metalAndGlassPhysMat.GetArrayElementAtIndex(i);
                         EditorGUILayout.BeginHorizontal("box");
-                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicMaterial), false);
+                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicsMaterial), false);
                         if (GUILayout.Button(new GUIContent("X", "Remove this Physic Material"), GUILayout.MaxWidth(20))) { t.dynamicFootstep.metalAndGlassPhysMat.RemoveAt(i); }
                         EditorGUILayout.EndHorizontal();
                     }
@@ -1328,7 +1328,7 @@ public class FPAIO_Editor : Editor
                     {
                         SerializedProperty LS_ref = grassPhysMat.GetArrayElementAtIndex(i);
                         EditorGUILayout.BeginHorizontal("box");
-                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicMaterial), false);
+                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicsMaterial), false);
                         if (GUILayout.Button(new GUIContent("X", "Remove this Physic Material"), GUILayout.MaxWidth(20))) { t.dynamicFootstep.grassPhysMat.RemoveAt(i); }
                         EditorGUILayout.EndHorizontal();
                     }
@@ -1391,7 +1391,7 @@ public class FPAIO_Editor : Editor
                     {
                         SerializedProperty LS_ref = dirtAndGravelPhysMat.GetArrayElementAtIndex(i);
                         EditorGUILayout.BeginHorizontal("box");
-                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicMaterial), false);
+                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicsMaterial), false);
                         if (GUILayout.Button(new GUIContent("X", "Remove this Physic Material"), GUILayout.MaxWidth(20))) { t.dynamicFootstep.dirtAndGravelPhysMat.RemoveAt(i); }
                         EditorGUILayout.EndHorizontal();
                     }
@@ -1454,7 +1454,7 @@ public class FPAIO_Editor : Editor
                     {
                         SerializedProperty LS_ref = rockAndConcretePhysMat.GetArrayElementAtIndex(i);
                         EditorGUILayout.BeginHorizontal("box");
-                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicMaterial), false);
+                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicsMaterial), false);
                         if (GUILayout.Button(new GUIContent("X", "Remove this Physic Material"), GUILayout.MaxWidth(20))) { t.dynamicFootstep.rockAndConcretePhysMat.RemoveAt(i); }
                         EditorGUILayout.EndHorizontal();
                     }
@@ -1517,7 +1517,7 @@ public class FPAIO_Editor : Editor
                     {
                         SerializedProperty LS_ref = mudPhysMat.GetArrayElementAtIndex(i);
                         EditorGUILayout.BeginHorizontal("box");
-                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicMaterial), false);
+                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicsMaterial), false);
                         if (GUILayout.Button(new GUIContent("X", "Remove this Physic Material"), GUILayout.MaxWidth(20))) { t.dynamicFootstep.mudPhysMat.RemoveAt(i); }
                         EditorGUILayout.EndHorizontal();
                     }
@@ -1580,7 +1580,7 @@ public class FPAIO_Editor : Editor
                     {
                         SerializedProperty LS_ref = customPhysMat.GetArrayElementAtIndex(i);
                         EditorGUILayout.BeginHorizontal("box");
-                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicMaterial), false);
+                        LS_ref.objectReferenceValue = EditorGUILayout.ObjectField("", LS_ref.objectReferenceValue, typeof(PhysicsMaterial), false);
                         if (GUILayout.Button(new GUIContent("X", "Remove this Physic Material"), GUILayout.MaxWidth(20))) { t.dynamicFootstep.customPhysMat.RemoveAt(i); }
                         EditorGUILayout.EndHorizontal();
                     }
