@@ -1,4 +1,5 @@
-﻿using Michsky.UI.ModernUIPack;
+﻿using System;
+using Michsky.UI.ModernUIPack;
 using UnityEngine;
 
 public class MoveDropdown : MonoBehaviour
@@ -9,6 +10,8 @@ public class MoveDropdown : MonoBehaviour
     
     public CustomDropdown customDropdown; // assign in Inspector
     public Transform labelsParent;        // assign "Labels" GameObject here
+
+    private int _currentDropdownIndex;
 
     void Start()
     {
@@ -29,6 +32,24 @@ public class MoveDropdown : MonoBehaviour
 
         // Refresh UI
         customDropdown.SetupDropdown();
+        _currentDropdownIndex = 0;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            ChangeNextDropdownItem();
+        }
+    }
+
+    private void ChangeNextDropdownItem()
+    {
+        var itemCount = customDropdown.dropdownItems.Count;
+        _currentDropdownIndex = _currentDropdownIndex >= itemCount - 1 ? 0 : _currentDropdownIndex + 1;
+        Debug.Log(_currentDropdownIndex);
+        customDropdown.ChangeDropdownInfo(_currentDropdownIndex);
+        HandleDropdown(_currentDropdownIndex);
     }
 
     void AddDropdownItem(string name)
@@ -39,7 +60,9 @@ public class MoveDropdown : MonoBehaviour
         customDropdown.dropdownItems.Add(newItem);
     }
     
-    public void HandleDropdown(int index){
+    public void HandleDropdown(int index)
+    {
+        _currentDropdownIndex = index;
         flyCamera.transform.position = new Vector3(xOffset * index, 0, 0);
         flyCamera.transform.eulerAngles = Vector3.zero;
     }
